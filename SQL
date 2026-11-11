@@ -1,0 +1,35 @@
+Create database EnigmaRoomDB;
+
+create table Medio(
+idmedio int primary key identity(1,1),
+NombreMedio Varchar (100) not null unique,
+Activo bit not null Default 1 check (Activo >=0 and Activo <=1)); 
+
+Create table Sala(
+idSala int primary key identity(1,1),
+Nombre varchar(50) not null unique,
+Temas varchar(50) not null,
+Dificultad int not null check ( Dificultad >=1 and Dificultad <=5),
+Precio decimal(10,2) not null check (Precio >0),
+Estado bit not null default 1 check (Estado >=0 and Estado <=1),
+);
+
+Create table Cliente(
+idCliente int primary key identity (1,1),
+Correlec varchar(125) unique not null,
+Nombre varchar(50) not null,
+FechaRegistro date not null default getdate(),
+idmedio int not null,
+foreign key (idmedio) references Medio(idmedio),
+Activo bit not null default 1 check (Activo >=0 and Activo <=1));
+
+create table Partida(
+idPartida int primary key identity (1,1),
+Nojugadores int not null check (Nojugadores >=2 and Nojugadores <=6),
+FECHA DATETIME NOT NULL DEFAULT GETDATE(),
+Precio decimal(10,2) not null check (Precio >0),
+idcliente int not null,
+idsala int not null,
+Foreign key (idcliente) references Cliente(idCliente),
+Foreign key (idsala) references Sala(idSala))
+;
